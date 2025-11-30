@@ -1,0 +1,483 @@
+.MODEL MEDIUM
+.STACK 200H
+.DATA   
+;name    
+NAM DB 40, ?, 40 DUP('$')        
+  
+MN1  DB 10, 13, ' Please enter your name: $'
+MN2 DB 10, 13, '              Welcome $'
+;_________________________________________________________________________________                        
+;menu                                         
+M1 DB 10,13,'              **                   1.food                       **$' 
+M2 DB 10,13,'              **                   2.drink                      **$'
+;________________________________________________________________________________                 
+;food               
+MF1 DB 10,13,10,13,'              food menu$' 
+
+FOOD_PRICE DB 8, 9, 6, 7, 5, 10, 3, 9, 3
+    
+MF2 DB 10,13,'              **                1.Chicken(Price: 80)            **$' 
+MF3 DB 10,13,'              **                2.fish(Price: 90)               **$'
+MF4 DB 10,13,'              **                3.shawarma(Price: 60)           **$'
+MF5 DB 10,13,'              **                4.kofta(Price: 70)              **$'
+MF6 DB 10,13,'              **                5.mahshi(Price: 50)             **$'
+MF7 DB 10,13,'              **                6.kabsah(Price: 100)            **$'
+MF8 DB 10,13,'              **                7.molokhia(Price: 30            **$'
+MF9 DB 10,13,'              **                8.mandi(Price: 90)              **$'
+MF10 DB 10,13,'              **                9.rice(Price: 30)               **$' 
+;___________________________________________________________________________________
+;drink
+MD1 DB 10,13,'              drink menu$'
+ 
+DRINK_PRICE DB 2, 3, 3, 2, 4, 4, 4, 7, 1
+ 
+MD2 DB 10,13,'              **                1.hot tea(Price: 20)            **$' 
+MD3 DB 10,13,'              **                2.ice tea(Price: 30)            **$'
+MD4 DB 10,13,'              **                3.coffee(Price: 30)             **$'
+MD5 DB 10,13,'              **                4.pepsi(Price: 20)              **$'
+MD6 DB 10,13,'              **                5.lemon(Price: 40)              **$'
+MD7 DB 10,13,'              **                6.latte(Price: 40)              **$'
+MD8 DB 10,13,'              **                7.orange(Price: 40)             **$'
+MD9 DB 10,13,'              **                8.milkshake(Price: 70)          **$'
+MD10 DB 10,13,'              **                9.water(Price: 10)              **$'
+;___________________________________________________________________________________ 
+;massage
+MA1 DB 10,13,'              Enter your Choise: $'
+MA2 DB 10,13,'              Enter your order: $'
+MA3 DB 10,13,'              Quantity: $'
+MA4 DB 10,13,'              Total Price: $'
+MA5 DB 10,13,'              1.AND$'
+MA6 DB 10,13,'              2.Go Back to Main Menu$'
+MA7 DB 10,13,'              3.EXIT$' 
+;___________________________________________________________________________________
+;INVALID
+MI1 DB 10,13,'              ***&&INVALID ENTRY&&***$'
+MI2 DB 10,13,'              ***&&Try Again&&***$'
+;___________________________________________________________________________________
+;border
+MB1 DB 10,13,'              **                                                **$'
+MB2 DB 10,13,'              ****************************************************$'
+MB3 DB 10,13,10,13,' $'
+;___________________________________________________________________________________
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+ 
+NAME:    
+    LEA DX, MN1;massage
+    MOV AH, 9
+    INT 21H
+    
+    LEA DX, NAM
+    MOV AH, 0AH      
+    INT 21H
+        
+    MOV CL, [NAM + 1] 
+    MOV CH, 0                    
+                  
+    JMP TOP
+TOP:
+    CALL CLEAR_SCREEN
+  
+    LEA DX, MN2;name
+    MOV AH, 9
+    INT 21H
+     
+    LEA DX, NAM + 2   
+    MOV AH, 9
+    INT 21H
+
+    LEA DX,MB2;border
+    MOV AH,9
+    INT 21H
+       
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H     
+    
+    LEA DX,MB1
+    MOV AH,9
+    INT 21H           
+    
+    LEA DX,M1;menu
+    MOV AH,9
+    INT 21H
+        
+    LEA DX,M2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB1;border
+    MOV AH,9
+    INT 21H
+
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA1;massage
+    MOV AH,9
+    INT 21H    
+      
+    MOV AH,1;input
+    INT 21H
+    MOV BH,AL
+    SUB BH,48;-49
+    
+    CMP BH,1
+    JE FOOD
+    
+    CMP BH,2
+    JE DRINK
+    
+    JMP INVALID    
+       
+FOOD:  
+    
+    CALL CLEAR_SCREEN
+    
+    LEA DX,MF1;massage     
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2;border
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB1
+    MOV AH,9
+    INT 21H
+        
+    LEA DX,MF2;menu
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF3
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF4
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF5
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF6
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF7
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF8
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF9
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MF10
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB1;border
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA2;massage       
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1;input        
+    INT 21H
+    MOV BL,AL
+    SUB BL,48;-49       
+    
+    CMP BL, 1
+    JL INVALID    
+    CMP BL, 9
+    JG INVALID    
+    
+    DEC BL          
+    MOV BH, 0       
+    
+    LEA SI, FOOD_PRICE 
+    MOV BL, [SI + BX]   
+    
+    JMP CALCULATE_F 
+    
+CALCULATE_F:
+       
+    LEA DX,MA3;massage      
+    MOV AH,9
+    INT 21H         
+
+    MOV AH,1;input        
+    INT 21H
+    SUB AL,48;-49       
+    
+    MUL BL;*          
+    AAM             
+    
+    MOV CX,AX       
+    ADD CH,48;-49       
+    ADD CL,48;-49       
+    
+    LEA DX,MA4;massage      
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,2        
+    MOV DL,CH
+    INT 21H
+    
+    MOV DL,CL       
+    INT 21H
+    
+    MOV DL,'0'      
+    INT 21H
+    
+    LEA DX, MB3;jump
+    MOV AH, 9
+    INT 21H
+    
+    LEA DX,MA5;massage
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA6
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA7
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1;input
+    INT 21H
+    SUB AL,48;-49
+    
+    CMP AL,1
+    JE FOOD
+    
+    CMP AL,2
+    JE TOP          
+    
+    JMP EXIT
+         
+DRINK: 
+    CALL CLEAR_SCREEN
+    
+    LEA DX,MD1;drink     
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2;brder
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB1
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MD2;menu
+    MOV AH,9
+    INT 21H
+    LEA DX,MD3
+    MOV AH,9
+    INT 21H
+    LEA DX,MD4
+    MOV AH,9
+    INT 21H
+    LEA DX,MD5
+    MOV AH,9
+    INT 21H
+    LEA DX,MD6
+    MOV AH,9
+    INT 21H
+    LEA DX,MD7
+    MOV AH,9
+    INT 21H
+    LEA DX,MD8
+    MOV AH,9
+    INT 21H
+    LEA DX,MD9
+    MOV AH,9
+    INT 21H
+    LEA DX,MD10
+    MOV AH,9
+    INT 21H
+
+    LEA DX,MB1;border
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MB2
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA2;massage       
+    MOV AH,9
+    INT 21H
+
+    MOV AH,1;input        
+    INT 21H
+    MOV BL,AL
+    SUB BL,48;-49       
+ 
+    CMP BL, 1
+    JL INVALID
+    CMP BL, 9
+    JG INVALID
+
+    DEC BL          
+    MOV BH, 0       
+    
+    LEA SI, DRINK_PRICE 
+    MOV BL, [SI + BX]    
+    
+    JMP CALCULATE_D 
+
+CALCULATE_D:
+       
+    LEA DX,MA3;massage      
+    MOV AH,9
+    INT 21H         
+
+    MOV AH,1;input        
+    INT 21H
+    SUB AL,48       
+    
+    MUL BL;*          
+    AAM             
+    
+    MOV CX,AX       
+    ADD CH,48;-49       
+    ADD CL,48;-49       
+    
+    LEA DX,MA4;massage      
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,2        
+    MOV DL,CH
+    INT 21H
+    
+    MOV DL,CL       
+    INT 21H
+    
+    MOV DL,'0'      
+    INT 21H
+    
+    LEA DX, MB3;jump
+    MOV AH, 9
+    INT 21H         
+    
+    LEA DX,MA5;massage
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA6
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA7
+    MOV AH,9
+    INT 21H
+    
+    LEA DX,MA1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1;input
+    INT 21H
+    SUB AL,48;-49
+    
+    CMP AL,1
+    JE DRINK
+    
+    CMP AL,2
+    JE TOP          
+    
+    JMP EXIT 
+    
+INVALID:
+   
+    LEA DX,MI1
+    MOV AH,9
+    INT 21H 
+        
+    LEA DX,MI2 
+    MOV AH,9
+    INT 21H     
+        
+    JMP EXIT 
+          
+CLEAR_SCREEN:  
+    PUSH AX
+    PUSH BX
+    PUSH CX
+    PUSH DX
+
+    MOV AH, 06H;clean  
+    MOV AL, 00H  
+    MOV BH, 07H;colour  
+    MOV CX, 0000H;up
+    MOV DX, 184FH;down
+    INT 10H;go      
+    
+    MOV AH, 02H;go  
+    MOV BH, 00H;page  
+    MOV DH, 00H;row  
+    MOV DL, 00H;column  
+    INT 10H      
+    
+    POP DX
+    POP CX
+    POP BX
+    POP AX
+    RET
+                   
+     EXIT:
+    
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+
+
+
